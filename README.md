@@ -28,13 +28,20 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 --------------
 ### 准备element ui模板
->element-ui 饿了么开发
->适用于vue项目-PC端
+> element-ui 饿了么开发
+> 适用于vue项目-PC端
 
 ### 准备 git 版本控制
 > 工具：git/svn
-1.git init -> .git
-2.git status
-3.git add .
-4.git commit -m "zhushi"
-5.在代码托管平台新建远程仓库
+1. git init -> .git
+2. git status
+3. git add .
+4. git commit -m "zhushi"
+5. 在代码托管平台新建远程仓库
+6. git remote add origin https://github.com/mmmmlc123/Mall-manage.git
+7. git hub -u origin master (之后再Push直接git push)
+
+### 登录 新建分支 login 组件 配置路由
+> 新建一个分支专门写登录功能
+> git branch
+> git checkout -b 分支名
