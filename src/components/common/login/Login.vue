@@ -30,7 +30,27 @@ export default {
     },
     components: {},
     methods: {
-        //登录请求
+        //async await 将异步操作转换成像同步请求
+        async handleLogin() {
+            const res = await this.$http.post('login', this.formData, {
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
+
+            const {
+                data, 
+                meta: {msg, status}
+            } = res.data
+
+            if (status === 200) {
+                this.$router.push('/home')
+                //console.log(msg)
+                this.$message.success(msg)
+            } else this.message.error(msg)
+        },
+
+        /* //登录请求
         handleLogin() {
             const token = localStorage.token;
 
@@ -56,7 +76,7 @@ export default {
                     //不成功
                     //1.提示消息
            })
-        },
+        }, */
     }
 }
 </script>

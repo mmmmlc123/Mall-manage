@@ -74,10 +74,16 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 2. 修改$http的header中的authorization,添加token
 > 登录验证，添加el提示框
 1. 异步请求res, 赋值到msg, status
-2. if( status == 200) 登陆成功 跳转到home 提示成功this.$message.success(msg)
+2. if( status === 200) 登陆成功 跳转到home 提示成功this.$message.success(msg)
 3. else this.$message.error(msg)
 
 ### 登录 登录成功 进入home页面
 1. 进入home页面： this.$router.push('/home')
 2. 新建Home.vue页面
 3. 添加路由 '/home'
+
+### 登录 简化登录请求代码 async和await 
+> 让异步ajax请求代码看起来像同步
+1. 异步请求方法前 添加async
+2. 找到 异步请求获取有res结果的代码 前面加await 并提前赋值 到 const res
+3. 就可以以同步的形式写方法内后续的代码
