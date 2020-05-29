@@ -45,3 +45,39 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 新建一个分支专门写登录功能
 > git branch
 > git checkout -b 分支名
+
+### 登录 引入表单组件 调整样式
+> el-form
+1. 引入
+2. 调整标签（h2 + el + button）
+> label-position = "top"
+3. .login-wrap .login-form .login-btn
+
+### 登录 创建axios插件
+> axios不是插件 创建MyHttpServer插件， 使用：this.$http.get()获取接口
+    
+    import axios from 'axios'
+
+    const MyHttpServer = {}
+
+    MyHttpServer.install = (Vue) => {
+        
+        //添加实例方法$http
+        Vue.prototype.$http = axios
+    }
+
+    export default MyHttpServer
+
+### 登录 请求登录 添加提示框
+> 请求加token
+1. 引入 MyHttpServer插件， 使用$http.post请求登录数据
+2. 修改$http的header中的authorization,添加token
+> 登录验证，添加el提示框
+1. 异步请求res, 赋值到msg, status
+2. if( status == 200) 登陆成功 跳转到home 提示成功this.$message.success(msg)
+3. else this.$message.error(msg)
+
+### 登录 登录成功 进入home页面
+1. 进入home页面： this.$router.push('/home')
+2. 新建Home.vue页面
+3. 添加路由 '/home'
