@@ -101,4 +101,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 列 el-col
 > 注意： 24栏
 
-### 
+### 首页 侧边栏 引入导航组件
+> el-menu index不能一样
+
