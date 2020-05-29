@@ -92,5 +92,13 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 目的： 保存正确用户的token值，限制用户直接进入home页面
  localStorage.setItem('token', data.token) 
 
- ### 首页 布局容器 样式调整
- > 引入布局容器
+### 首页 布局容器 样式调整
+> 引入布局容器
+
+### 首页 头部 样式调整
+> layout 布局
+> 行 el-row
+> 列 el-col
+> 注意： 24栏
+
+### 

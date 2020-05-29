@@ -11,9 +11,9 @@
             <el-form-item label="密码">
                 <el-input v-model="formData.password"></el-input>
             </el-form-item>
-            <el-button class="login-btn" @click.prevent="handleLogin" type="primary">登录</el-button>
+            <el-button class="login-btn" @click.prevent="handleLogin" type="primary">登录
+            </el-button>
         </el-form>
-        
     </div>
 </template>
 
