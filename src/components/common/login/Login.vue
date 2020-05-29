@@ -52,7 +52,7 @@ export default {
                 //3.提示登录成功信息
                 //console.log(msg)
                 this.$message.success(msg)
-            } else this.message.error(msg)
+            } else this.$message.error(msg)
         },
 
         /* //登录请求

@@ -20,7 +20,7 @@
         </el-header>
         <el-container>
             <el-aside class="aside" width="200px">
-                <el-menu  unique-opened="true">
+                <el-menu  :unique-opened="true">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-user-solid"></i>
@@ -78,14 +78,25 @@
 </template>
 
 <script>
-export default {
-    name: "Home",
-    data() {
-        return {}
-    },
-    components: {},
-    methods: {}
-}
+    export default {
+        name: "Home",
+        data() {
+            return {}
+        },
+        beforeCreate() {
+            //获取token
+            const token  = localStorage.getItem('token')
+            //有token，继续渲染组件
+            console.log(token)
+            if (!token) {
+                this.$router.push('/login')
+                this.$message.error('请登录')
+            } 
+            //无token， 登录
+        },
+        components: {},
+        methods: {}
+    }
 </script>
 
 <style scoped>

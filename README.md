@@ -104,3 +104,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### 首页 侧边栏 引入导航组件
 > el-menu index不能一样
 
+### 首页 进入首页的权限认证
+> 若未登录(获取token为空)，则进入登录界面
+
