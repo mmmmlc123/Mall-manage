@@ -37,14 +37,19 @@ export default {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
-
+            console.log(res.data)
             const {
                 data, 
                 meta: {msg, status}
             } = res.data
 
             if (status === 200) {
+                //登录成功
+                //1.保存token
+                localStorage.setItem('token', data.token)
+                //2.跳转home
                 this.$router.push('/home')
+                //3.提示登录成功信息
                 //console.log(msg)
                 this.$message.success(msg)
             } else this.message.error(msg)

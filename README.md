@@ -87,3 +87,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 1. 异步请求方法前 添加async
 2. 找到 异步请求获取有res结果的代码 前面加await 并提前赋值 到 const res
 3. 就可以以同步的形式写方法内后续的代码
+
+### 登录 保存登录成功 token 值
+> 目的： 保存正确用户的token值，限制用户直接进入home页面
+ localStorage.setItem('token', data.token) 
