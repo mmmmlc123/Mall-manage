@@ -16,20 +16,37 @@
         <!-- 表格 -->
         <el-table
             :data="tableData"
-            style="width: 100%">
+            style="width: 100%"
+            border>
             <el-table-column
-                prop="date"
-                label="日期"
-                width="180">
+                type="index"
+                label="#"
+                width="30">
             </el-table-column>
             <el-table-column
                 prop="name"
                 label="姓名"
-                width="180">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="address"
-                label="地址">
+                label="邮箱">
+            </el-table-column>
+            <el-table-column
+                prop="phone"
+                label="电话">
+            </el-table-column>
+            <el-table-column
+                prop="addTime"
+                label="创建时间">
+            </el-table-column>
+            <el-table-column
+                prop="address"
+                label="用户状态">
+            </el-table-column>
+            <el-table-column
+                prop="address"
+                label="操作">
             </el-table-column>
         </el-table>
     </el-card>

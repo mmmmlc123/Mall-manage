@@ -124,3 +124,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### 用户管理-用户列表 引入表格组件
 > el-table(data数据[]) > el-table-column(label表头/prop="数据") > 字符串数据
 
+### 用户管理-用户别表 表头处理
+> type="index" ->单元格的内容从1开始的序号
+> 调整表头label和宽度
