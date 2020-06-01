@@ -13,14 +13,16 @@
                 </el-col>
                 <el-col :span="2">
                     <div class="grid-content bg-purple">
-                        <a href="" class="loginout">退出</a>
+                        <a @click.prevent="handleOut" class="loginout">退出</a>
                     </div>
                 </el-col>
             </el-row>
         </el-header>
         <el-container>
             <el-aside class="aside" width="200px">
-                <el-menu  :unique-opened="true">
+                <el-menu  
+                :router="true"
+                :unique-opened="true">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-user-solid"></i>
@@ -71,7 +73,9 @@
                     </el-submenu>
                     </el-menu>
             </el-aside>
-            <el-main class="main">Main</el-main>
+            <el-main class="main">
+                <router-view></router-view>
+            </el-main>
         </el-container>
         </el-container>
     </div>
@@ -95,7 +99,30 @@
             //无token， 登录
         },
         components: {},
-        methods: {}
+        methods: {
+            handleOut() {
+                this.$confirm('是否退出？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    //清除token
+                    localStorage.clear()
+                    //进入登录页面
+                    this.$router.push('/login')
+                    //提示退出成功
+                    this.$message({
+                        type: 'success',
+                        message: '退出成功!'
+                    });6
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消退出'
+                    });          
+                });
+            }
+        }
     }
 </script>
 
@@ -122,5 +149,11 @@
         text-decoration: none;
         line-height: 60px;
         color: #fff
+    }
+    a:hover {
+        color: blue;
+    }
+    a {
+        cursor: pointer; 
     }
 </style>

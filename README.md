@@ -107,3 +107,11 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### 首页 进入首页的权限认证
 > 若未登录(获取token为空)，则进入登录界面
 
+### 首页 头部 退出功能
+> 退出request 
+
+### 用户管理 用户列表 路由配置
+1. home.vue 开启路由模式 index值-> path值
+2. home.vue mai -> router-view
+3. 新建user.vue
+4. router/index.js 在Home中children配置users的的路由

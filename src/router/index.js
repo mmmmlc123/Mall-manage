@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/common/login/Login.vue'
 
 const Home = () => import('@/view/home/Home.vue')
+const User = () => import('@/view/user/User.vue')
 
 Vue.use(Router)
 
@@ -22,5 +23,10 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    {
+      path: 'user',
+      name: 'user',
+      component: User
+    }
   ]
 })
