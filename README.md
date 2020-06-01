@@ -137,4 +137,27 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 const token  = localStorage.getItem('token')
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 ```
-5. 发送请求
+5. 发送请求 
+
+### 用户管理 用户列表 结构数值 渲染数据
+1. 解构赋值 给this.userList = res.data.users
+2. props="" 渲染数据
+
+### 用户管理 用户列表 处理表格时间
+1. npm i moment
+2. 全局过滤器 main.js 
+```js
+Vue.filter('fmtDate', (v) => {
+  return moment(v).format('YYYY-MM-DD')
+})
+```
+3. 使用全局过滤器 {{create_time | fmtDate}} 只能在数组的形式中使用，template创建一个数组，并通过slot-scope进行传参，scope = userList
+```js
+    <el-table-column
+        label="创建时间">
+        <template slot-scope="scope" class="date">
+            {{scope.row.create_time | fmtDate}}
+        </template>
+    </el-table-column>
+```
+

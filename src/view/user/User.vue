@@ -15,37 +15,42 @@
         </div>
         <!-- 表格 -->
         <el-table
-            :data="tableData"
+            :data="userList"
             style="width: 100%"
-            border>
+            >
             <el-table-column
                 type="index"
                 label="#"
-                width="30">
+                width="40">
             </el-table-column>
             <el-table-column
-                prop="name"
+                prop="role_name"
                 label="姓名"
-                width="80">
+                width="120">
             </el-table-column>
             <el-table-column
-                prop="address"
+                prop="email"
                 label="邮箱">
             </el-table-column>
             <el-table-column
-                prop="phone"
+                prop="mobile"
                 label="电话">
             </el-table-column>
+
+
             <el-table-column
-                prop="addTime"
                 label="创建时间">
+                <template slot-scope="scope" class="date">
+                    {{scope.row.create_time | fmtDate}}
+                </template>
             </el-table-column>
+
+
             <el-table-column
-                prop="address"
+                prop="mg_state"
                 label="用户状态">
             </el-table-column>
             <el-table-column
-                prop="address"
                 label="操作">
             </el-table-column>
         </el-table>
@@ -55,30 +60,27 @@
 </template>
 
 <script>
+import {formateDate} from '@/common/utils'
+
 export default {
     name: "User",
     data() {
         return {
             query: '',
+            /* 分页相关数据 */
             pagenum: '1',
-            pagesize: '2',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
+            pagesize: '6',
+            total: 4,
+            /* 
+            create_time: 1486720211
+            email: "adsfad@qq.com"
+            id: 500
+            mg_state: true
+            mobile: "12345678"
+            role_name: "超级管理员"
+            username: "admin" 
+            */
+            userList: [],
         }
     },
     components: {},
@@ -98,7 +100,29 @@ export default {
 
             const res = await this.$http.get(
                 `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
+
             console.log(res)
+
+            const {meta:{msg, status}, data: {users, total}}= res.data
+            if(status === 200) {
+                //1. 给表格数据赋值
+                this.userList = users
+
+                //2. 给total赋值
+                this.total = total
+
+                //3. 提示
+                this.$message.success(msg)
+            }else this.$message.warning(msg)
+        }
+    },
+    filters: {
+        showDate(value) {
+            //1.将时间戳转成date对象
+            const date = new Date(value*1000)
+
+            //2.将date进行格式化
+            return formateDate(date, 'yyyy-MM-dd')
         }
     }
 }
@@ -110,3 +134,4 @@ export default {
     }
 </style>
 
+ 
