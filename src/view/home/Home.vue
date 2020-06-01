@@ -28,7 +28,7 @@
                             <i class="el-icon-user-solid"></i>
                             <span>用户管理</span>
                         </template>
-                        <el-menu-item index="1-1">
+                        <el-menu-item index="user">
                             <span>用户列表</span>
                         </el-menu-item>
                     </el-submenu>

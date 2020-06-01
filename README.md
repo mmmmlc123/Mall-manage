@@ -115,3 +115,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 2. home.vue mai -> router-view
 3. 新建user.vue
 4. router/index.js 在Home中children配置users的的路由
+
+### 用户管理 用户列表 面包屑 搜索框
+1. el-card 卡片小容器
+2. 面包屑 el-breadcrumb
+3. 搜索框el-input el-button

@@ -48,7 +48,7 @@ export default {
                 //1.保存token
                 localStorage.setItem('token', data.token)
                 //2.跳转home
-                this.$router.push('/home')
+                this.$router.push({name:home})
                 //3.提示登录成功信息
                 //console.log(msg)
                 this.$message.success(msg)
