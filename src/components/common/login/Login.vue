@@ -34,7 +34,7 @@ export default {
         async handleLogin() {
             const res = await this.$http.post('login', this.formData, {
                 headers: {
-                    authorization: `Bearer ${localStorage.token}`
+                    Authorization: `Bearer ${localStorage.token}`
                 }
             })
             console.log(res.data)

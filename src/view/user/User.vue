@@ -94,9 +94,10 @@ export default {
 
             //需要授权的 API ，必须在请求头中使用 `Authorization` 字段提供 `token` 令牌
             const AUTH_TOKEN = localStorage.getItem('token')
-            this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+            this.$http.defaults.headers['Authorization'] = AUTH_TOKEN;
 
-            const res = await this.$http.get('users?query=${this.query}&page=${this.pagenum}&pagesize=${this.pagesize}')
+            const res = await this.$http.get(
+                `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
             console.log(res)
         }
     }

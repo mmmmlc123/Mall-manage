@@ -91,7 +91,7 @@
             //获取token
             const token  = localStorage.getItem('token')
             //有token，继续渲染组件
-            console.log(token)
+            //console.log(token)
             if (!token) {
                 this.$router.push('/login')
                 this.$message.error('请登录')
