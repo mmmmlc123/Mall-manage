@@ -127,3 +127,14 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### 用户管理-用户别表 表头处理
 > type="index" ->单元格的内容从1开始的序号
 > 调整表头label和宽度
+
+### 用户管理-用户列表 请求数据 设置请求头
+1. created()this.getUserList()
+2. methods:getUserList(){发送请求}
+3. 接口文档 -> 设置请求头
+4. 找axios中关于请求头设置的代码
+```js
+const token  = localStorage.getItem('token')
+axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+```
+5. 发送请求
