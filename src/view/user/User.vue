@@ -30,28 +30,43 @@
             </el-table-column>
             <el-table-column
                 prop="email"
-                label="邮箱">
+                label="邮箱"
+                width="200">
             </el-table-column>
             <el-table-column
                 prop="mobile"
-                label="电话">
+                label="电话"
+                width="140">
             </el-table-column>
 
-
             <el-table-column
-                label="创建时间">
+                label="创建时间"
+                width="140">
                 <template slot-scope="scope" class="date">
                     {{scope.row.create_time | fmtDate}}
                 </template>
             </el-table-column>
 
-
             <el-table-column
                 prop="mg_state"
-                label="用户状态">
+                label="用户状态"
+                width="120">
+                <template slot-scope="scope">
+                    <el-switch
+                        v-model="scope.row.mg_state"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949">
+                    </el-switch>
+                </template>
             </el-table-column>
+
             <el-table-column
                 label="操作">
+                <template slot-scope="scope">
+                    <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
+                    <el-button size="mini" plain type="success" icon="el-icon-message" circle></el-button>
+                    <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
+                </template>
             </el-table-column>
         </el-table>
     </el-card>
@@ -81,6 +96,7 @@ export default {
             username: "admin" 
             */
             userList: [],
+            mg_state: true
         }
     },
     components: {},

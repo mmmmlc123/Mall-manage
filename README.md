@@ -139,7 +139,7 @@ axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 ```
 5. 发送请求 
 
-### 用户管理 用户列表 结构数值 渲染数据
+### 用户管理 用户列表 解构赋值 渲染数据
 1. 解构赋值 给this.userList = res.data.users
 2. props="" 渲染数据
 
@@ -151,7 +151,9 @@ Vue.filter('fmtDate', (v) => {
   return moment(v).format('YYYY-MM-DD')
 })
 ```
-3. 使用全局过滤器 {{create_time | fmtDate}} 只能在数组的形式中使用，template创建一个数组，并通过slot-scope进行传参，scope = userList
+3. 使用全局过滤器 {{create_time | fmtDate}} 
+   只能在数组的形式中使用，template创建一个数组，并通过slot-scope进行传参，
+   scope相当于一行的数据， scope.row相当于当前行的数据对象，scope = userList
 ```js
     <el-table-column
         label="创建时间">
@@ -161,3 +163,22 @@ Vue.filter('fmtDate', (v) => {
     </el-table-column>
 ```
 
+### 用户管理 用户列表 表格-用户状态开关
+> el-switch v-model="bool"
+```js
+<el-table-column prop="mg_state" label="用户状态">
+    <template slot-scope="scope">
+        <el-switch v-model="scope.row.mg_state"    
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+        </el-switch>
+    </template>
+</el-table-column>
+```
+1. 插入开关样式，新建template 传参scope , 绑定scope.row.mg_state
+
+### 用户管理 用户列表 表格-操作
+> 操作里面不是字符串
+1. template 容器 slot-scope="scope"
+2. 添加操作按钮 el-button
+3. 调整样式size = "mini" plain
