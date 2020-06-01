@@ -120,3 +120,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 1. el-card 卡片小容器
 2. 面包屑 el-breadcrumb
 3. 搜索框el-input el-button
+
+### 用户管理-用户列表 引入表格组件
+> el-table(data数据[]) > el-table-column(label表头/prop="数据") > 字符串数据
+
