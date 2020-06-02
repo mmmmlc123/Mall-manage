@@ -206,10 +206,24 @@ Vue.filter('fmtDate', (v) => {
 3.2 默认对话框不显示
 3.3 el-form -> el-input="form.xxx"
 
-### 用户管理 用户列表 添加用户-发送请求框
+### 用户管理 用户列表 添加用户-处理响应
 1. 请求接口 添加数据 post this.form
 2. 关闭对话框
 3. 清空文本this.form={}
 4. 更新视图 getUserList()
 5. 提示信息
+
+### 用户管理 用户列表 操作-删除 打开确认框
+> this.$confirm().then.catch() 通过promise
+1. 点击确认 -> .then参数
+2. 点击取消 -> .catch的参数
+
+### 用户管理 用户列表 操作-删除 处理响应
+1. 点击确认 -> .then 发送 delete请求
+1.1 获取userId,通过scope得到用户id，赋值userId
+1.2 发送异步请求delete，获取结果
+2. 判断是否正确删除 if(status === 200)
+2.1 正确 更新视图 注意回到第一页 this.pagenum = 1
+2.2 正确/错误 提示信息 
+
 

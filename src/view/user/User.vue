@@ -67,7 +67,8 @@
                 <template slot-scope="scope">
                     <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
                     <el-button size="mini" plain type="success" icon="el-icon-message" circle></el-button>
-                    <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
+                    <el-button size="mini" plain type="danger" icon="el-icon-delete" circle @click="showDeleUserMsgBox(scope.row.id)" >
+                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -224,9 +225,37 @@ export default {
                 //
 
             } else this.$message.error(msg)
-        }
+        },
         
+        //操作-删除
+        showDeleUserMsgBox(userId) {
+        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(async () => {
+            //发送删除请求
+            //1.把userId从data中取出
+            //2.把userId以参数的形式传入showDeleUserMsgBox
+            const res = await this.$http.delete(`users/${userId}`, this.form)
+            console.log(res)
+            if(res.data.meta.status === 200) {
+                //更新视图
+                this.pagenum = 1
+                this.getUserList()
+                //提示成功消息
+                this.$message.success(res.data.meta.msg)
+            } else this.$message.error(res.data.meta.msg)
+            
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });          
+        });
+      }
     },
+
     filters: {
         showDate(value) {
             //1.将时间戳转成date对象
