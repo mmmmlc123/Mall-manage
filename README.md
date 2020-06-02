@@ -182,3 +182,18 @@ Vue.filter('fmtDate', (v) => {
 1. template 容器 slot-scope="scope"
 2. 添加操作按钮 el-button
 3. 调整样式size = "mini" plain
+
+### 用户管理 用户列表 分页组件 引入文档
+> 该接口支持分页 url参数中有 pagenum pagesize
+1. @size-change 每页显示条数变化时 触发
+2. @current-change 当前页面改变时 触发
+3. :current-page设置当前页是第几页
+4. :page-sizes="[2,4,6,8]"每页多少条数据
+5. :page-size 设置显示多少条
+6. :total 数据总数
+
+### 用户管理 用户列表 搜索用户
+1. 搜索框绑定query v-model="query"
+2. 点击搜索按钮发送请求 @click="" 
+3. 一键清除 clearable 
+4. 对clear绑定,点击清除按钮重新搜索query=""

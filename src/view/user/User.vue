@@ -8,8 +8,8 @@
         </el-breadcrumb>
         <!-- 搜索 -->
         <div style="margin-top: 15px;">
-            <el-input placeholder="请输入内容" v-model="query" class="inputSearch">
-                <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-input placeholder="请输入内容" v-model="query" class="inputSearch" @clear="loadUserList" clearable>
+                <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
             </el-input>
             <el-button type="success">添加用户</el-button>
         </div>
@@ -69,6 +69,15 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pagenum"
+            :page-sizes="[2, 4, 6, 8]"
+            :page-size="pagesize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination> 
     </el-card>
     
         
@@ -83,9 +92,9 @@ export default {
         return {
             query: '',
             /* 分页相关数据 */
-            pagenum: '1',
-            pagesize: '6',
-            total: 4,
+            pagenum: 1,
+            pagesize: 2,
+            total: 1,
             /* 
             create_time: 1486720211
             email: "adsfad@qq.com"
@@ -116,9 +125,7 @@ export default {
 
             const res = await this.$http.get(
                 `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
-
             console.log(res)
-
             const {meta:{msg, status}, data: {users, total}}= res.data
             if(status === 200) {
                 //1. 给表格数据赋值
@@ -129,7 +136,30 @@ export default {
 
                 //3. 提示
                 this.$message.success(msg)
-            }else this.$message.warning(msg)
+
+                //this.pagenum = 1
+            } else this.$message.warning(msg)
+        },
+
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            this.pagesize = val
+            this.getUserList()
+        },
+
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+            this.pagenum = val
+            this.getUserList()
+        },
+        //搜索用户
+        searchUser() {
+            this.getUserList()
+            console.log(query)
+        },
+        //
+        loadUserList() {
+            this.getUserList()
         }
     },
     filters: {
