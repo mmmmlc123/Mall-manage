@@ -6,14 +6,16 @@
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
             <el-breadcrumb-item>用户列表</el-breadcrumb-item>
         </el-breadcrumb>
-        <!-- 搜索 -->
+
+        <!-- 2.搜索 -->
         <div style="margin-top: 15px;">
             <el-input placeholder="请输入内容" v-model="query" class="inputSearch" @clear="loadUserList" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
             </el-input>
-            <el-button type="success">添加用户</el-button>
+            <el-button type="success" @click="showAddUserDia = true">添加用户</el-button>
         </div>
-        <!-- 表格 -->
+
+        <!-- 3.表格 -->
         <el-table
             :data="userList"
             style="width: 100%"
@@ -24,7 +26,7 @@
                 width="40">
             </el-table-column>
             <el-table-column
-                prop="role_name"
+                prop="username"
                 label="姓名"
                 width="120">
             </el-table-column>
@@ -69,6 +71,8 @@
                 </template>
             </el-table-column>
         </el-table>
+        
+        <!-- 4.分页 -->
         <el-pagination 
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -78,6 +82,28 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination> 
+
+        <!-- 5.添加用户对话框 -->
+        <el-dialog title="添加用户" :visible.sync="showAddUserDia">
+        <el-form :model="form">
+            <el-form-item label="用户名" :label-width="formLabelWidth">
+            <el-input v-model="form.username" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" :label-width="formLabelWidth">
+            <el-input v-model="form.password" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" :label-width="formLabelWidth">
+            <el-input v-model="form.email" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="电话" :label-width="formLabelWidth">
+            <el-input v-model="form.mobile" autocomplete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="showAddUserDia = false">取 消</el-button>
+            <el-button type="primary" @click="addUser">确 定</el-button>
+        </div>
+        </el-dialog>    
     </el-card>
     
         
@@ -105,7 +131,15 @@ export default {
             username: "admin" 
             */
             userList: [],
-            mg_state: true
+            mg_state: true,
+            showAddUserDia: false,
+            form: {
+                username:'',
+                password: '',
+                email: '',
+                mobile: '',
+            },
+            formLabelWidth: '120px'
         }
     },
     components: {},
@@ -152,15 +186,46 @@ export default {
             this.pagenum = val
             this.getUserList()
         },
+
         //搜索用户
         searchUser() {
             this.getUserList()
             console.log(query)
         },
-        //
+        //清空搜索框，重新获取数据
         loadUserList() {
             this.getUserList()
+        },
+        //添加用户-发送请求post
+        async addUser() {
+            // 关闭对话框
+            this.showAddUserDia = false
+
+            //将输入框数据存入接口数据库中
+            const res = await this.$http.post('users', this.form)    
+            console.log(res) 
+
+            const {meta:{msg,status},data} = res.data
+            if(status == 201) {
+                //1. 提示成功
+                this.$message.success(msg)
+                
+                //2. 更新视图
+                this.getUserList()
+
+                //3. 清空文本框
+                this.form = {}
+                /* 遍历
+                for(const key in this.form ) {
+                    if(this.form.hasOwnProperty(key)){
+                        this.form[key] = ""
+                    }
+                } */
+                //
+
+            } else this.$message.error(msg)
         }
+        
     },
     filters: {
         showDate(value) {

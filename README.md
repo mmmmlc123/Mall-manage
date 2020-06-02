@@ -197,3 +197,19 @@ Vue.filter('fmtDate', (v) => {
 2. 点击搜索按钮发送请求 @click="" 
 3. 一键清除 clearable 
 4. 对clear绑定,点击清除按钮重新搜索query=""
+
+### 用户管理 用户列表 添加用户-显示对话框
+1. 引入对话框el-form
+2. 添加用户按钮-> 显示对话框
+3. 配置对话框
+3.1 :model = form (看接口文档，对应数据)
+3.2 默认对话框不显示
+3.3 el-form -> el-input="form.xxx"
+
+### 用户管理 用户列表 添加用户-发送请求框
+1. 请求接口 添加数据 post this.form
+2. 关闭对话框
+3. 清空文本this.form={}
+4. 更新视图 getUserList()
+5. 提示信息
+
