@@ -226,4 +226,18 @@ Vue.filter('fmtDate', (v) => {
 2.1 正确 更新视图 注意回到第一页 this.pagenum = 1
 2.2 正确/错误 提示信息 
 
+### 用户管理 用户列表 操作-编辑 打开编辑框-显示编辑数据
+1. 复制添加用户文本框 el-form
+2. 设置edit按钮 @click => 打开编辑框
+3. 显示该用户数据 
+3.1 点击edit 对click传参scope.row 用户数据
+3.2 在showEditUserDia方法中 将用户数据赋值 this.form
+
+### 用户管理 用户列表 操作-编辑 发送编辑请求
+1. 确定 -> editUser() -> 发送异步请求
+2. 请求接口 put(`user/${this.form.id}`,this.form) this.form里是当前用户的数据
+3. 注意：在打开添加对话框之前清空文本框 this.form= {}
+
+
+
 
