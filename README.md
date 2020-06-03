@@ -238,6 +238,30 @@ Vue.filter('fmtDate', (v) => {
 2. 请求接口 put(`user/${this.form.id}`,this.form) this.form里是当前用户的数据
 3. 注意：在打开添加对话框之前清空文本框 this.form= {}
 
+### 用户管理 用户列表 修改用户状态
+1. switch开关添加事件@change
+2. 传参用户数据 scope.row = user
+3. 发送put异步请求 （视图双向绑定，不用修改视图）
 
+### 用户管理 用户列表 分配角色-显示对话框
+1. 点击操作中的按钮 -> 打开对话框
+2. 引入对话框(有下拉框)
+3. 下拉框特性： 如果select绑定的数据的值和option中的value一致,此时显示的是option的value值
+4. data提供了el-select 的 v-model所绑定的数据currRoleId = -1
 
+### 用户管理 用户列表 分配角色-显示对话框-显示当前角色
+1. 通过请求获取所有角色 roles
+2. v-for  :label="item.userName" :value="item.id"
+3. 通过请求获取当前用户的角色
+3.1 方法一： 获取角色的rid
+给el-select 中的v-model绑定的数据赋值 this.currRoleId = res.data.data.rid
+> rid接口文档的参数名是role_id
+3.2 方法二： 获取用户信息的role_name 
+给el-select 中的v-model绑定的数据赋值 this.currRoleId = user.role_name
+绑定value :value="item.roleName
 
+### 用户管理 用户列表 分配角色-修改用户角色
+1. 通过视图操作 -> 修改了label -> value值变化 -> v-model绑定数值变化
+2. currRoleId
+3. 在 checkRole方法中要使用用户id 在data声明currUserId: -1
+4. 赋值当前用户id this.currentId = user.id

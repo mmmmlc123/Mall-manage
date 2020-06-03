@@ -48,7 +48,7 @@
                     {{scope.row.create_time | fmtDate}}
                 </template>
             </el-table-column>
-
+            <!-- 状态 -->
             <el-table-column
                 prop="mg_state"
                 label="用户状态"
@@ -57,16 +57,18 @@
                     <el-switch
                         v-model="scope.row.mg_state"
                         active-color="#13ce66"
-                        inactive-color="#ff4949">
+                        inactive-color="#ff4949"
+                        @change="changeMgState(scope.row)">
                     </el-switch>
                 </template>
             </el-table-column>
 
+            <!-- 操作 -->
             <el-table-column
                 label="操作">
                 <template slot-scope="scope">
                     <el-button size="mini" plain type="primary" icon="el-icon-edit" circle @click="showEidUserDia(scope.row)"></el-button>
-                    <el-button size="mini" plain type="success" icon="el-icon-message" circle></el-button>
+                    <el-button size="mini" plain type="success" icon="el-icon-check"  circle @click="showCheckUserDia(scope.row)"></el-button>
                     <el-button size="mini" plain type="danger" icon="el-icon-delete" circle @click="showDeleUserMsgBox(scope.row.id)" >
                      </el-button>
                 </template>
@@ -124,6 +126,28 @@
             <el-button type="primary" @click="editUser">确 定</el-button>
         </div>
         </el-dialog>    
+
+        <!-- 7.分配角色对话框 -->
+        <el-dialog title="分配角色" :visible.sync="dialogFormVisCheck">
+        <el-form :model="form">
+            <el-form-item label="用户名" :label-width="formLabelWidth">
+                {{currUsername}}
+            </el-form-item>
+            <el-form-item label="角色" :label-width="formLabelWidth">
+
+            <el-select v-model="currRoledId" placeholder="请选择角色">
+                <el-option label="请选择角色" :value="-1"></el-option>
+                <el-option :label="item.roleName" :value="item.id"
+                v-for="(item, i) in roles" :key="i"></el-option>
+                
+            </el-select>
+            </el-form-item> 
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisCheck = false">取 消</el-button>
+            <el-button type="primary" @click="CheckUser">确 定</el-button>
+        </div>
+        </el-dialog>  
     </el-card>
 </template>
 
@@ -152,6 +176,7 @@ export default {
             mg_state: true,
             dialogFormVisAdd: false,
             dialogFormVisEit: false,
+            dialogFormVisCheck: false,
             form: {
                 username:'',
                 password: '',
@@ -159,6 +184,11 @@ export default {
                 mobile: '',
             },
             formLabelWidth: '120px',
+            //角色数据 index从0开始计数
+            currRoledId: '',
+            currUsername: '',
+            currUserId: '',
+            roles: []
         }
     },
     components: {},
@@ -253,39 +283,49 @@ export default {
             } else this.$message.error(msg)
         },
         
-        //操作-删除
-        showDeleUserMsgBox(userId) {
-        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-        }).then(async () => {
-            //发送删除请求
-            //1.把userId从data中取出
-            //2.把userId以参数的形式传入showDeleUserMsgBox
-            const res = await this.$http.delete(`users/${userId}`, this.form)
+        //改变用户状态
+        async changeMgState(user) {
+            //发送修改状态请求
+            const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`)
             console.log(res)
             if(res.data.meta.status === 200) {
-                //更新视图
-                this.pagenum = 1
-                this.getUserList()
-                //提示成功消息
+                //提示修改成功
                 this.$message.success(res.data.meta.msg)
-            } else this.$message.error(res.data.meta.msg)
-            
-        }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });          
-        });
+            }
+        },
+
+        //操作-删除
+        showDeleUserMsgBox(userId) {
+            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                //发送删除请求
+                //1.把userId从data中取出
+                //2.把userId以参数的形式传入showDeleUserMsgBox
+                const res = await this.$http.delete(`users/${userId}`, this.form)
+                console.log(res)
+                if(res.data.meta.status === 200) {
+                    //更新视图
+                    this.pagenum = 1
+                    this.getUserList()
+                    //提示成功消息
+                    this.$message.success(res.data.meta.msg)
+                } else this.$message.error(res.data.meta.msg)
+                
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
 
         //打开编辑页面
         showEidUserDia(user) {
             this.dialogFormVisEit = true 
             //获取用户信息
-            //console.log(user)
             this.form = user
         },
 
@@ -308,6 +348,36 @@ export default {
                 
             } else this.$message.error(msg)
         },
+
+        //打开角色选择页面
+        async showCheckUserDia(user) {
+            this.dialogFormVisCheck = true
+            //获取用户名
+            this.currUsername = user.username
+            //给currUserId赋值
+            this.currUserId = user.id
+            //获取所有角色id
+            const res = await this.$http.get(`roles`)
+            this.roles = res.data.data
+            console.log(this.roles)
+            const res1 = await this.$http.get(`users/${user.id}`)
+            //获取当前用户的角色
+            this.currRoledId = res1.data.data.rid
+            //console.log(res1)
+            //this.currRoledId = user.role_name
+            //console.log(user)
+        },
+        //分配角色-发送请求
+        async CheckUser() {
+            this.dialogFormVisCheck = false
+
+            //1.请求数据
+            const res = await this.$http.put(`users/${this.currUserId}/role`, {rid:this.currRoledId})
+            console.log(res)
+            if(res.data.meta.status === 200) {
+                this.$message.success(res.data.meta.msg)
+            } else this.$message.error(res.data.meta.msg)
+        }
     },
 
     filters: {
