@@ -38,3 +38,11 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 3.git add .
 4.git commit -m "zhushi"
 5.在代码托管平台新建远程仓库
+
+### 用户管理 用户列表 合并分支-推送
+1. git add . 
+2. git commit -m "注释"
+3. git branch 
+4. git checkout master
+5. git merge dev-user
+6. git push
