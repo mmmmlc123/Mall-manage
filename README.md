@@ -305,3 +305,9 @@ Vue.filter('fmtDate', (v) => {
 1. created 获取数据 
 2. 异步请求数据 rightList:[]
 3. el-form 绑定 rightList 显示数据
+
+### 权限管理 权限列表 获取表格数据 层级显示
+> 根据level值进行判断层级 > 显示层级
+1. template slot-scope="scope"
+2. span 标签内进行 v-if 判断
+
