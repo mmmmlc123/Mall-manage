@@ -134,7 +134,7 @@
                 {{currUsername}}
             </el-form-item>
             <el-form-item label="角色" :label-width="formLabelWidth">
-
+            
             <el-select v-model="currRoledId" placeholder="请选择角色">
                 <el-option label="请选择角色" :value="-1"></el-option>
                 <el-option :label="item.roleName" :value="item.id"
@@ -354,18 +354,15 @@ export default {
             this.dialogFormVisCheck = true
             //获取用户名
             this.currUsername = user.username
-            //给currUserId赋值
+            //给currUserId赋值用户ID
             this.currUserId = user.id
             //获取所有角色id
             const res = await this.$http.get(`roles`)
             this.roles = res.data.data
-            console.log(this.roles)
+            console.log(res)
             const res1 = await this.$http.get(`users/${user.id}`)
             //获取当前用户的角色
             this.currRoledId = res1.data.data.rid
-            //console.log(res1)
-            //this.currRoledId = user.role_name
-            //console.log(user)
         },
         //分配角色-发送请求
         async CheckUser() {

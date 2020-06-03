@@ -252,13 +252,9 @@ Vue.filter('fmtDate', (v) => {
 ### 用户管理 用户列表 分配角色-显示对话框-显示当前角色
 1. 通过请求获取所有角色 roles
 2. v-for  :label="item.userName" :value="item.id"
-3. 通过请求获取当前用户的角色
-3.1 方法一： 获取角色的rid
-给el-select 中的v-model绑定的数据赋值 this.currRoleId = res.data.data.rid
+3. 通过请求获取当前用户的角色rid
+4.  给el-select 中的v-model绑定的数据赋值 this.currRoleId = res.data.data.rid
 > rid接口文档的参数名是role_id
-3.2 方法二： 获取用户信息的role_name 
-给el-select 中的v-model绑定的数据赋值 this.currRoleId = user.role_name
-绑定value :value="item.roleName
 
 ### 用户管理 用户列表 分配角色-修改用户角色
 1. 通过视图操作 -> 修改了label -> value值变化 -> v-model绑定数值变化
