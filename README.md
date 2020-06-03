@@ -285,3 +285,23 @@ Vue.filter('fmtDate', (v) => {
 4. git checkout master
 5. git merge dev-user
 6. git push
+
+### 权限管理 权限列表 新建组件-配置路由
+1. 新建right.vue
+2. home.vue 修改index
+3. 配置路由
+
+### 权限管理 权限列表 封装自定义面包屑组件
+1. 新建MyBread.vue文件 通过props提供数组level1 level2
+2. 在main.js 文件引入自定义组件 Vue.component("my-bread", MyBread)
+
+### 权限管理 权限列表 axios-拦截器统一设置表头
+> 除了登录之外的所有请求 都需要设置头部信息
+> 在请求发起之前 在axios文档添加头部
+> 请求拦截器 对config.header 进行设置表头
+> 响应拦截器(目前未使用)
+
+### 权限管理 权限列表 获取表格数据 显示数据
+1. created 获取数据 
+2. 异步请求数据 rightList:[]
+3. el-form 绑定 rightList 显示数据

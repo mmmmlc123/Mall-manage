@@ -2,7 +2,7 @@
     <el-card class="box-card">
         <!-- 1.面包屑 -->
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item>首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
             <el-breadcrumb-item>用户列表</el-breadcrumb-item>
         </el-breadcrumb>
@@ -201,10 +201,7 @@ export default {
             //query 查询参数，可以为空
             //pagenum 当前页码 不能为空
             //pagesize 每页显示条数 不能为空
-
-            //需要授权的 API ，必须在请求头中使用 `Authorization` 字段提供 `token` 令牌
-            const AUTH_TOKEN = localStorage.getItem('token')
-            this.$http.defaults.headers['Authorization'] = AUTH_TOKEN;
+            console.log('开始请求')
 
             const res = await this.$http.get(
                 `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
