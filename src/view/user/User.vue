@@ -16,7 +16,7 @@
         </div>
 
         <!-- 3.表格 -->
-        <el-table
+        <el-table class="userTable"
             :data="userList"
             style="width: 100%"
             >
@@ -389,6 +389,10 @@ export default {
 <style  scoped>
     .inputSearch {
         width: 300px;
+    }
+    .userTable {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 </style>
 

@@ -40,7 +40,7 @@
                             <span>权限管理</span>
                         </template>
                         <el-menu-item index="right">权限列表</el-menu-item>
-                        <el-menu-item index="2-2">角色列表</el-menu-item>
+                        <el-menu-item index="role">角色列表</el-menu-item>
 
                     </el-submenu>
 

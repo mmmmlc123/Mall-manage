@@ -311,3 +311,21 @@ Vue.filter('fmtDate', (v) => {
 1. template slot-scope="scope"
 2. span 标签内进行 v-if 判断
 
+### 权限管理 权限列表 表格样式 固定表头
+> 设置table固定高 height="400"
+> overflow: auto
+> margin-top: 20px
+
+### 权限管理 用户列表 表格展示 展开行功能分析
+1. el-table type="expand"
+2. template > 该角色权限（三级）
+3. 页面布局如果是行列问题 -> for循环 -> v-for嵌套 el-tagrol
+
+### 权限管理 用户列表 表格展示 展开行-各级权限
+1. 分析roleList > 获取每个对象中的children中的 authName
+2. 布局 一行el-row > (列A(el-tag) + 列B(一行el-row -> 两列(el-colA + el-colB))
+3. 一级权限展示 v-for (item1, i) in 最外层的el-row scope.row.children
+4. 二级权限展示 v-for (item2, i) in item1.children
+5. 三级权限展示 v-for (item3, i) in item2.children
+
+### 

@@ -5,6 +5,7 @@ import Login from '@/components/common/login/Login.vue'
 const Home = () => import('@/view/home/Home.vue')
 const User = () => import('@/view/user/User.vue')
 const Right = () => import('@/view/rights/Right.vue')
+const Role = () => import('@/view/rights/Role.vue')
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
           path: 'right',
           name: 'right',
           component: Right
+        },
+        {
+          path: 'role',
+          name: 'role',
+          component: Role
         },
       ]
     },

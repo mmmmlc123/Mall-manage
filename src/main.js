@@ -12,6 +12,7 @@ import '@/assets/css/base.css'
 
 import router from './router'
 
+
 //使用插件
 Vue.use(ElementUI);
 Vue.use(MyHttpServer);

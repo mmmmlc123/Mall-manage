@@ -5,9 +5,11 @@
         
         <!-- 2.表格 -->
         <el-table border
+            class="rightTable"
             :data="rightList"
             style="width: 100%"
-            height="400">
+            height="400"
+            >
             <el-table-column
                 type="index"
                 label="#"
@@ -58,4 +60,8 @@ export default {
 </script>
 
 <style scoped>
+    .rightTable{
+        overflow: auto;
+        margin-top: 20px;
+    }
 </style>
