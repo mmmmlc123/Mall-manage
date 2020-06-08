@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/common/login/Login.vue'
+import { Message } from 'element-ui';
 
 const Home = () => import('@/view/home/Home.vue')
 const User = () => import('@/view/user/User.vue')
@@ -9,7 +10,7 @@ const Role = () => import('@/view/rights/Role.vue')
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     {
       path: '',
@@ -26,21 +27,45 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: 'user',
-          name: 'user',
+          path: 'users',
+          name: 'Users',
           component: User
         },
         {
-          path: 'right',
-          name: 'right',
+          path: 'rights',
+          name: 'rights',
           component: Right
         },
         {
-          path: 'role',
-          name: 'role',
+          path: 'roles',
+          name: 'roles',
           component: Role
         },
       ]
     },
-  ]
+  ],
+  
 })
+
+//在路由配置生效之前统一判断token
+//路由守卫在导航生效之前
+//路由/导航守卫
+router.beforeEach((to, from , next) => {
+  if(to.path === '/login'){
+      next()
+  } else {
+    //获取token
+    const token  = localStorage.getItem('token')
+    //有token，继续渲染组件
+    //console.log(token)
+    if (!token) {
+        router.push({name:'login'})
+        Message.error('请登录')
+        return  //跳过
+    } 
+    //无token， 登录
+    next()
+  }
+})
+
+export default router

@@ -13,27 +13,28 @@ MyHttpServer.install = (Vue) => {
     
     //在请求或响应被 then 或 catch 处理前拦截它们。
     // 添加请求拦截器
-    axios.interceptors.request.use(function (config) {
+    axios.interceptors.request.use(config => {
         // 在发送请求之前做些什么
-        console.log('拦截器被触发')
+        //console.log('拦截器被触发')
         
-        console.log(config)
-        if(config.url !== 'login') {
-            const AUTH_TOKEN = localStorage.getItem('token')
-            config.headers['Authorization'] = AUTH_TOKEN;
-        }
+        //console.log(config)
+    
+            //const AUTH_TOKEN = localStorage.getItem('token')
+            //config.headers['Authorization'] = AUTH_TOKEN;
+        config.headers.Authorization = location.sessionStorage.getItem('token')
         
         return config;
-    }, function (error) {
+    }/* , function(error) {
         // 对请求错误做些什么
         return Promise.reject(error);
-    });
+        console.log(error)
+    } */);
 
     // 添加响应拦截器
     axios.interceptors.response.use(function (response) {
         // 对响应数据做点什么
         return response;
-    }, function (error) {
+    }, function(error) {
         // 对响应错误做点什么
         return Promise.reject(error);
     });

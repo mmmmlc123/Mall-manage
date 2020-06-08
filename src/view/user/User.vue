@@ -155,7 +155,7 @@
 import {formateDate} from '@/common/utils'
 
 export default {
-    name: "User",
+    name: "Users",
     data() {
         return {
             query: '',

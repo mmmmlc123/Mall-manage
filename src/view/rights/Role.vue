@@ -75,11 +75,12 @@
             default-expand-all
             :default-checked-keys="arrChecked"
             node-key="id"
-            :props="defaultProps">
+            :props="defaultProps"
+            ref="tree">
             </el-tree>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisibleRight = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisibleRight = false">确 定</el-button>
+                <el-button type="primary" @click="setRoleRight">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -99,7 +100,9 @@ export default {
                 children: 'children',
                 label: 'authName'  
             },
-            arrChecked: []
+            arrChecked: [],
+            currRoleId: '',
+            rids: []
         }
     },
     created() {
@@ -109,8 +112,9 @@ export default {
         async getRoleList() {
             const res = await this.$http.get(`roles`)
             this.roleList = res.data.data
-            console.log(this.roleList)
+            //console.log(this.roleList)
         },
+
         //取消权限
         async deleRight(role, rightId) {
             //console.log(rightId)
@@ -124,16 +128,19 @@ export default {
                 this.$message.success(res.data.meta.msg)
             }
         },
+
+        //打开分配权限页面
         async showSetRightDia(role) {
-            //打开权限列表
-            this.dialogVisibleRight = true
+            
             //获取树形结构的所有权限
             const res = await this.$http.get(`rights/tree`)
             this.rightTree = res.data.data
             //console.log(this.rightTree)
 
+            //给当前用户赋值角色id
+            this.currRoleId = role.id
             //获取当前用户所选权限 
-            //console.log(role)
+            console.log(role)
             //通过arrtemp来进行传参，若直接对arrchecked传参，当这次数据为空时，为上一次传参内容
             var arrtemp = []
             role.children.forEach(item1 => {
@@ -146,10 +153,39 @@ export default {
                 })
             });
             this.arrChecked = arrtemp
-            console.log(this.arrChecked)
+            //console.log(this.arrChecked)
+
+            //打开权限列表
+            this.dialogVisibleRight = true
         },
-        //获取全部权限
         
+        //提交修改的角色权限(角色授权)
+        async setRoleRight() {
+            //roleId当前角色的id
+            //rids 树形结构中所有全选和半选的节点id
+            //获取全选id数组arr1
+            let arr1 = this.$refs.tree.getCheckedKeys()
+            console.log(arr1)
+            //获取半选id数组arr2
+            let arr2 = this.$refs.tree.getHalfCheckedKeys()
+            console.log(arr2)
+            
+            //连接数组arr = arr1+arr2
+            let arr = [...arr1, ...arr2]
+            arr = arr.join(',')
+            console.log(arr)
+
+            const res = await this.$http.post(`roles/${this.currRoleId}/rights`, 
+           {rids : arr})
+            console.log(res)
+
+            if( res.data.meta.status === 200) {
+                this.$message.success(res.data.meta.msg)
+            } else this.$message.error(res.data.meta.msg)
+            //关闭对话框更新视图
+            this.dialogVisibleRight = false
+            this.getRoleList()
+        }
      }
 }
 </script>
@@ -160,11 +196,3 @@ export default {
     }
 
 </style>
-//布局是行列布局 -> for嵌套
-
-//请在控制台输出以下图形
-//v-for嵌套渲染 el-tag=""
-    *
-  *   *
-*   *   * 
-//for 
