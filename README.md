@@ -33,25 +33,10 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ### 准备 git 版本控制
 > 工具：git/svn
-<<<<<<< HEAD
-1.git init -> .git
-2.git status
-3.git add .
-4.git commit -m "zhushi"
-5.在代码托管平台新建远程仓库
-
-### 用户管理 用户列表 合并分支-推送
-1. git add . 
-2. git commit -m "注释"
-3. git branch 
-4. git checkout master
-5. git merge dev-user
-6. git push
-=======
 1. git init -> .git
 2. git status
 3. git add .
-4. git commit -m "zhushi"
+4. git commit -m "注释"
 5. 在代码托管平台新建远程仓库
 6. git remote add origin https://github.com/mmmmlc123/Mall-manage.git
 7. git hub -u origin master (之后再Push直接git push)
@@ -276,7 +261,6 @@ Vue.filter('fmtDate', (v) => {
 2. currRoleId
 3. 在 checkRole方法中要使用用户id 在data声明currUserId: -1
 4. 赋值当前用户id this.currentId = user.id
->>>>>>> dev-login
 
 ### 用户管理 用户列表 合并分支-推送
 1. git add . 
@@ -284,4 +268,111 @@ Vue.filter('fmtDate', (v) => {
 3. git branch 
 4. git checkout master
 5. git merge dev-user
+6. git push
+
+### 权限管理 权限列表 新建组件-配置路由
+1. 新建right.vue
+2. home.vue 修改index
+3. 配置路由
+
+### 权限管理 权限列表 封装自定义面包屑组件
+1. 新建MyBread.vue文件 通过props提供数组level1 level2
+2. 在main.js 文件引入自定义组件 Vue.component("my-bread", MyBread)
+
+### 权限管理 权限列表 axios-拦截器统一设置表头
+> 除了登录之外的所有请求 都需要设置头部信息
+> 在请求发起之前 在axios文档添加头部
+> 请求拦截器 对config.header 进行设置表头
+> 响应拦截器(目前未使用)
+
+### 权限管理 权限列表 获取表格数据 显示数据
+1. created 获取数据 
+2. 异步请求数据 rightList:[]
+3. el-form 绑定 rightList 显示数据
+
+### 权限管理 权限列表 获取表格数据 层级显示
+> 根据level值进行判断层级 > 显示层级
+1. template slot-scope="scope"
+2. span 标签内进行 v-if 判断
+
+### 权限管理 权限列表 表格样式 固定表头
+> 设置table固定高 height="400"
+> overflow: auto
+> margin-top: 20px
+
+### 权限管理 用户列表 表格展示 展开行功能分析
+1. el-table type="expand"
+2. template > 该角色权限（三级）
+3. 页面布局如果是行列问题 -> for循环 -> v-for嵌套 el-tagrol
+
+### 权限管理 用户列表 表格展示 展开行-各级权限添加
+1. 分析roleList > 获取每个对象中的children中的 authName
+2. 布局 一行el-row > (列A(el-tag) + 列B(一行el-row -> 两列(el-colA + el-colB))
+3. 一级权限展示 v-for (item1, i) in 最外层的el-row scope.row.children 
+4. 二级权限展示 v-for (item2, i) in item1.children
+5. 三级权限展示 v-for (item3, i) in item2.children
+6. 修改tag样式 添加图标 <i class="" />
+7. 角色无权限时提示 添加 <span v-if="scope.row.children.length===0">未分配权限</span>
+
+### 权限管理 用户列表 表格展示 展开行-取消权限
+> 点击tag X按钮 取消该角色权限
+1. 给el-tag @close="deleRight(scope.row, item.id)"
+2. deleRight(role, rightId) 发送请求this.$http.delete(`roles/${role.id}/rights/${rightId}`)
+3. 刷新当前角色展开行页面： 重新获取数据 role.children = res.data.data
+4. 提示删除成功
+
+### 权限管理 用户列表 表格展示 操作-修改权限-获取树形结构
+> 点击显示对话框 -> 修改提交
+1. 提供对话框 el-dialog 
+2. 操作按钮添加@click="showSetRightDia(scope.row)"
+3. 展示树形结构 el-tree 绑定 获取树形结构的所有权限rightTree 
+3.1 el-tree 绑定 获取树形结构的所有权限chuanrightTree
+3.2 node-key="id" 每个树节点用来作为唯一标识
+3.3 :props="defaultProps" 节点标签 子树节点的 属性值
+
+### 权限管理 用户列表 表格展示 操作-修改权限-显示当前用户的所选权限
+> el-tree default-checked-keys="arrChecked"
+1. 查看showSetRightDia(role) 传参role数据 进行分析
+2. 将role.children中的各级id通过 forEach嵌套 逐级传递给临时数组arrtemp(通过push方法)
+3. 将arrtemp值赋值给arrChecked
+> 为什么不直接对arrChecked传参，因为当本次数据为空时，arrChecked值默认为上一次传参内容
+
+### 权限管理 用户列表 表格展示 操作-修改权限-修改当前用户权限
+1. 找到请求接口post roles/:roleId/rights 
+> roleId rid
+2. roleId 在打开的对话框的方法中添加 this.roleId = role.id
+3. 在确定方法中 找到所有选择的节点id：
+3.1 获取全选的节点id数组 getCheckedKeys
+3.2 获取半选的节点id数组getHalfCheckedKeys
+4. 在js中调用el-tree的js方法
+4.1 给el-tree 设置ref
+4.2 this.$refs.ref的值tree.js方法(3.1 3.2的方法名)
+4.3 返回两个数组arr1和arr2
+5. ES6展开运算符
+> let arr = [...arr1, ...arr2]
+6. this.$http.post(`roles/${this.currRoleId}/rights`, {rids : arr.join(',')})
+7. 关闭对话框，更新视图
+
+### 侧边栏 动态导航
+> 获取菜单menus > 绑定数据 
+1. order
+2. path 标识
+3. children
+4. v-for
+> 在写之后的路由配置时，path不能随便写
+
+### 用户登录判断 显示对应权限 导航守卫
+1. 在home.vue判断token 麻烦
+2. 导航守卫直接在router进行设置
+2.1 路由配置生效前 先来到路由守卫的cb
+2.2 to 要去的路由配置 from当前的路由配置
+2.3 next() 让to的路由配置继续进行
+> 主要不能直接使用message,需要单独从element引入
+
+### 权限管理  合并分支-推送
+1. git add . 
+2. git commit -m "注释"
+3. git branch 
+4. git checkout master
+5. git merge dev-rights
 6. git push

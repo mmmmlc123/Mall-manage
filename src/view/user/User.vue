@@ -16,7 +16,7 @@
         </div>
 
         <!-- 3.表格 -->
-        <el-table
+        <el-table class="userTable"
             :data="userList"
             style="width: 100%"
             >
@@ -155,7 +155,7 @@
 import {formateDate} from '@/common/utils'
 
 export default {
-    name: "User",
+    name: "Users",
     data() {
         return {
             query: '',
@@ -201,10 +201,7 @@ export default {
             //query 查询参数，可以为空
             //pagenum 当前页码 不能为空
             //pagesize 每页显示条数 不能为空
-
-            //需要授权的 API ，必须在请求头中使用 `Authorization` 字段提供 `token` 令牌
-            const AUTH_TOKEN = localStorage.getItem('token')
-            this.$http.defaults.headers['Authorization'] = AUTH_TOKEN;
+            console.log('开始请求')
 
             const res = await this.$http.get(
                 `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
@@ -392,6 +389,10 @@ export default {
 <style  scoped>
     .inputSearch {
         width: 300px;
+    }
+    .userTable {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 </style>
 

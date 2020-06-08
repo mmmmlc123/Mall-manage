@@ -32,11 +32,7 @@ export default {
     methods: {
         //async await 将异步操作转换成像同步请求
         async handleLogin() {
-            const res = await this.$http.post('login', this.formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.token}`
-                }
-            })
+            const res = await this.$http.post('login', this.formData)
             console.log(res.data)
             const {
                 data, 

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui';
 import MyHttpServer from '@/plugins/http.js'
+import MyBread from '@/components/common/breadcrumb/MyBread.vue'
+
 import moment from 'moment'
 
 //不要忘记引入css文件
@@ -15,7 +17,12 @@ import router from './router'
 Vue.use(ElementUI);
 Vue.use(MyHttpServer);
 
+
 Vue.config.productionTip = false
+
+//全局自定义组件
+Vue.component('my-bread', MyBread)
+
 
 //全局过滤器
 Vue.filter('fmtDate', (v) => {
