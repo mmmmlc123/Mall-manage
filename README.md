@@ -369,3 +369,10 @@ Vue.filter('fmtDate', (v) => {
 2.3 next() 让to的路由配置继续进行
 > 主要不能直接使用message,需要单独从element引入
 
+### 权限管理  合并分支-推送
+1. git add . 
+2. git commit -m "注释"
+3. git branch 
+4. git checkout master
+5. git merge dev-rights
+6. git push
