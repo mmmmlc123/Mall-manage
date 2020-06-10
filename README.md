@@ -365,7 +365,7 @@ Vue.filter('fmtDate', (v) => {
 1. 在home.vue判断token 麻烦
 2. 导航守卫直接在router进行设置
 2.1 路由配置生效前 先来到路由守卫的cb
-2.2 to 要去的路由配置 from当前的路由配置
+2.2 to 要去的路由配a置 from当前的路由配置
 2.3 next() 让to的路由配置继续进行
 > 主要不能直接使用message,需要单独从element引入
 
@@ -376,3 +376,48 @@ Vue.filter('fmtDate', (v) => {
 4. git checkout master
 5. git merge dev-rights
 6. git push
+
+### 商品管理 商品列表 添加组件 请求商品数据
+1. 添加面包屑 搜索框 商品表格 
+2. 请求商品列表goods 配置表格
+3. 添加商品按钮
+
+### 商品管理 添加商品 配置路由 新建组件
+1. 添加路由goods/add
+2. goodsAdd.vue中添加面包屑 提示框 步骤条 表单等组件
+
+### 商品管理 添加商品 步骤条和tab配置
+> :active="abc" 若"abc"=2 表示当前是第二步
+1. 步骤条中active 步骤从0开始
+2. 引入el-tab v-model="active" 绑定步骤条active数据
+3. 步骤条和tab同步 设置active从0开始
+
+### 商品管理 添加商品 基本信息-表单绑定数据
+1. 最外层包裹 el-form
+2. v-model="addForm"
+3. form 数据的来源 添加商品的网络请求
+4. 基本信息tab 一般表单元素的数据绑定
+
+### 商品管理 添加商品 基本信息-级联选择器配置
+1. 选择级联选择器 el-cascader options:数据 props:配置 
+2. 获取分类数据 getCategoryList data 赋值cateList 
+3. props中将cateList数据配置label, children, value
+ 
+### 商品管理 添加商品 商品参数-获取动态参数 导入复选框
+> 必须先选择三级分类 -> 点击第二个tab才会获取
+1. tab添加tab-click方法 是否存在分类进行判断，若无则进行提示
+2. 若存在三级分类，获取对应分类的商品参数 
+> categories/${this.cateId[2]}/attributes?sel=many
+3. 添加el-form-item 和复选框 
+4. v-for遍历arrDyparams中的arr_name 和arr_vals 
+5. el-checkbox-group 默认选择为全选
+5.1 新建数组checkedEquipments
+5.2 将attr_vals赋值给checkedEquipments(判断是否为空)
+5.3 v-model="checkedEquipments" 
+
+### 商品管理 添加商品 商品属性-获取静态参数 导入表单
+> 当点击第三个tab, 同时已经选择三级分类，导入静态参数
+1. 进行判断this.active===2, this.cateId.length !== 0
+2. 静态属性获取 res.data.data = arrStaticParams
+> categories/${this.cateId[2]}/attributes?sel=only
+3. v-for 循环遍历arrStaticParams 中的arr_name 和arr_vals 

@@ -7,6 +7,8 @@ const Home = () => import('@/view/home/Home.vue')
 const User = () => import('@/view/user/User.vue')
 const Right = () => import('@/view/rights/Right.vue')
 const Role = () => import('@/view/rights/Role.vue')
+const GoodsList = () => import('@/view/goods/GoodsList.vue')
+const GoodsAdd = () => import('@/view/goods/GoodsAdd.vue')
 
 Vue.use(Router)
 
@@ -41,6 +43,16 @@ const router =  new Router({
           name: 'roles',
           component: Role
         },
+        {
+          path: 'goods',
+          name: 'goods',
+          component: GoodsList,
+        },
+        {
+          path: 'goods/add',
+          name: 'add',
+          component: GoodsAdd,
+        }
       ]
     },
   ],

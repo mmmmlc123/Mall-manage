@@ -19,9 +19,8 @@ MyHttpServer.install = (Vue) => {
         
         //console.log(config)
     
-            //const AUTH_TOKEN = localStorage.getItem('token')
-            //config.headers['Authorization'] = AUTH_TOKEN;
-        config.headers.Authorization = location.sessionStorage.getItem('token')
+        const AUTH_TOKEN = localStorage.getItem('token')
+        config.headers['Authorization'] = AUTH_TOKEN;
         
         return config;
     }/* , function(error) {

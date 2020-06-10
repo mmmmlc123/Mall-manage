@@ -23,7 +23,7 @@
                 <el-menu  
                 :router="true"
                 :unique-opened="true">
-                    <el-submenu :index="item1.order" v-for="(item1, index) in menus" :key="index">  
+                    <el-submenu :index="item1.order"  v-for="(item1, i) in menus" :key="i">  
                         <template slot="title">
                             <i class="el-icon-user-solid"></i>
                             <span>{{item1.authName}}</span>
@@ -74,7 +74,11 @@
                 const { data: res } = await this.$http.get('menus')
                 if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
                 this.menus = res.data
-                console.log(res)
+                console.log(this.menus)
+                //将order转换成字符串形式
+                this.menus.forEach(item => {
+                    item.order = item.order.toString()
+                })
             },
             handleOut() {
                 this.$confirm('是否退出？', '提示', {

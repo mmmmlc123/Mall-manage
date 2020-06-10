@@ -42,3 +42,9 @@ div .el-scrollbar__wrap {
 .ql-editor{
     min-height: 300px;
 }
+
+/* 解决级联选择框的问题 */
+.el-cascader {
+    height: 500px;
+}
+  
