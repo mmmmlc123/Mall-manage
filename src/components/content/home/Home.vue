@@ -22,22 +22,28 @@
             <el-aside class="aside" width="200px">
                 <el-menu  
                 :router="true"
-                :unique-opened="true">
-                    <el-submenu :index="item1.order"  v-for="(item1, i) in menus" :key="i">  
+                :unique-opened="true"
+                :default-active="activeIndex"
+                >
+                    <el-submenu :index="item1.order"  v-for="(item1, i) in menus" :key="i" >  
                         <template slot="title">
                             <i class="el-icon-user-solid"></i>
                             <span>{{item1.authName}}</span>
                         </template>
-                        <el-menu-item 
-                        :index="item2.path"
+                        <el-menu-item @click="clickChange"
+                        :index="item2.authName"
+                        :route="item2.path"
                         v-for="(item2, index) in item1.children" :key="index">
                             <i class="el-icon-circle-check"></i>
-                            <span>{{item2.authName}}</span>
+                            <span class="item">{{item2.authName}}</span>
                         </el-menu-item>
                     </el-submenu>
                     </el-menu>
             </el-aside>
-            <el-main class="main">
+            <el-main class="main" >
+                <keep-alive>
+                <my-bread :level1="title1" :level2="title2" v-model="activeIndex"/>
+                </keep-alive>
                 <router-view></router-view>
             </el-main>
         </el-container>
@@ -46,12 +52,20 @@
 </template>
 
 <script>
+    import MyBread from '@/components/common/breadcrumb/MyBread'
+    //1. 获取当前激活菜单的 index
+    //2. 根据index 获取导航栏的标题
+    //3. 赋值给title
     export default {
         name: "Home",
         data() {
             return {
                 menus: [],
                 isCollapse: false,
+                activeIndex: 1,
+                title1: '',
+                title2: '',
+                title1Index: 1
             }
         },
         /* beforeCreate() {
@@ -65,10 +79,25 @@
             } 
             //无token， 登录
         }, */
+        components: {
+            MyBread
+        },
         created() {
             this.getMenus()
+            this.activeIndex = window.sessionStorage.getItem('activeIndex')
         },
         methods: {
+            //点击导航栏
+            clickChange(index) {
+                this.title1Index = parseInt(index.indexPath[0]) - 1
+                //console.log(index.indexPath)
+                
+                this.title1 = this.menus[this.title1Index].authName
+                this.title2 = index.index
+                console.log(this.title2)
+                
+            },
+            
             //获取导航数据
             async getMenus() {
                 const { data: res } = await this.$http.get('menus')
@@ -94,7 +123,7 @@
                     this.$message({
                         type: 'success',
                         message: '退出成功!'
-                    });6
+                    });
                 }).catch(() => {
                     this.$message({
                         type: 'info',

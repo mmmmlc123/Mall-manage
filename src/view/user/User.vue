@@ -1,14 +1,13 @@
 <template>
     <el-card class="box-card">
-        <!-- 1.面包屑 -->
-        <my-bread level1="用户管理" level2="用户列表"></my-bread>
+        <!-- 1.页头 -->
 
         <!-- 2.搜索 -->
         <div style="margin-top: 15px;">
             <el-input placeholder="请输入内容" v-model="query" class="inputSearch" @clear="loadUserList" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
             </el-input>
-            <el-button type="success" @click="showAddUserDia">添加用户</el-button>
+            <el-button type="primary" @click="showAddUserDia">添加用户</el-button>
         </div>
 
         <!-- 3.表格 -->

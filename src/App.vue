@@ -12,7 +12,5 @@ export default {
 </script>
 
 <style>
-  #app {
-    height: 100%;
-  }
+  @import "./assets/css/global.css";
 </style>

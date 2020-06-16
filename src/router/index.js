@@ -3,12 +3,14 @@ import Router from 'vue-router'
 import Login from '@/components/common/login/Login.vue'
 import { Message } from 'element-ui';
 
-const Home = () => import('@/view/home/Home.vue')
+const Home = () => import('@/components/content/home/Home.vue')
 const User = () => import('@/view/user/User.vue')
 const Right = () => import('@/view/rights/Right.vue')
 const Role = () => import('@/view/rights/Role.vue')
 const GoodsList = () => import('@/view/goods/GoodsList.vue')
 const GoodsAdd = () => import('@/view/goods/GoodsAdd.vue')
+const CateParams = () => import('@/view/goods/CateParams.vue')
+const GoodsCate = () => import('@/view/goods/GoodsCate.vue')
 
 Vue.use(Router)
 
@@ -52,7 +54,17 @@ const router =  new Router({
           path: 'goods/add',
           name: 'add',
           component: GoodsAdd,
-        }
+        },
+        {
+          path: 'params',
+          name: 'params',
+          component: CateParams,
+        },
+        {
+          path: 'categories',
+          name: 'categories',
+          component: GoodsCate,
+        },
       ]
     },
   ],

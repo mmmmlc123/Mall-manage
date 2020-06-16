@@ -1,10 +1,9 @@
 <template>
     <el-card>
         <!-- 1.面包屑 -->
-        <my-bread level1="权限管理" level2="用户管理"></my-bread>
         
         <!-- 2.添加按钮 -->
-        <el-button class="addBtn">添加角色</el-button>
+        <el-button  type="primary">添加角色</el-button>
 
         <!-- 3.用户表格 -->
         <el-table
@@ -191,8 +190,6 @@ export default {
 </script>
 
 <style scoped>
-    .addBtn{
-        margin-top: 20px;
-    }
+
 
 </style>

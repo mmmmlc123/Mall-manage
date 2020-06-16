@@ -5,7 +5,7 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
-    min-width: 1366px;
+    min-width: 100%;
 }
 
 .el-breadcrumb {
@@ -40,11 +40,8 @@ div .el-scrollbar__wrap {
     font-size: 13px;
 }
 .ql-editor{
-    min-height: 300px;
+    min-height: 200px;
 }
 
-/* 解决级联选择框的问题 */
-.el-cascader {
-    height: 500px;
-}
-  
+
+

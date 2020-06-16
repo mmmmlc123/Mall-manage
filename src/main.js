@@ -20,7 +20,7 @@ Vue.use(MyHttpServer);
 
 Vue.config.productionTip = false
 
-//全局自定义组件
+//全局自定义组件面包屑
 Vue.component('my-bread', MyBread)
 
 

@@ -421,3 +421,127 @@ Vue.filter('fmtDate', (v) => {
 2. 静态属性获取 res.data.data = arrStaticParams
 > categories/${this.cateId[2]}/attributes?sel=only
 3. v-for 循环遍历arrStaticParams 中的arr_name 和arr_vals 
+
+### 商品管理 添加商品 商品图片-图片上传-文档-引入
+> el-upload
+1. action 全路径
+2. header 头部
+3. :on-remove="移除触发的方法"
+3. :on-preview="移除触发的方法"
+3. :on-remove="移除触发的方法"
+
+### 商品管理 添加商品 商品图片-图片上传-配置属性
+1. action="http开头的全路径"
+2. header: {Authorization:loacalStorage.getItem('token')}
+> 除了登录请求都需要设置头部
+3. file.responsedata.tmp_path 图片临时上传的路径
+
+### 商品管理 添加商品 商品内容-添加富文本
+1. npm i vue-quill-editor -S
+2. 引入quillEditor from vue-quill-editor
+3. v-model="addForm.goods_introduce" 
+4. 修改样式 ql-editor{ min-height: 300px; }
+
+### 商品管理 添加商品 表单数据分析
+```js
+    //未处理的数据
+    //1.商品所属分类数组,以为','分割的分类列表
+    goods_cat: [],
+    //2.上传的图片临时路径（对象）pics:[{http://...}]
+    pics: [],
+    //3.商品的参数（动态和静态的数组）
+    attrs: []
+```
+### 商品管理 添加商品 表单数据处理-分类和图片
+1. 将分类数组转化为以逗号隔开的字符串 .toStrong()
+2. 图片上传成功时 赋值pics.push({pic:})
+3. 移除图片时，
+3.1 findIndex()遍历item给pics添加index,
+3.2 splice(索引,1)
+
+### 商品管理 添加商品 表单数据处理-attrs动态和静态数组
+1. 所需请求的格式this.addForm.attrs[{attr_id: ?,attr_value:?}]
+2. 动态参数和静态参数 map遍历 返回新数组arr1和arr2
+3. 其中动态参数是从clickChange()中获取val
+4. 发送请求
+5. 返回商品列表 提示信息
+
+### 商品管理 分类参数 新建组件 配置路由
+1. 配置路由 创建组件cateParams.vue
+2. 创建级联选择器 并进行配置分类数据
+
+### 商品管理 分类参数 动态参数-级联选择器-获取动态参数
+1. el-form -> ek-form-item -> el-cas级联选择器
+2. 获取三级分类数据getCateList()
+3. 修改handleChange() 当获取三级分类时，显示动态参数表格
+4. this.getArrDyparams() 
+
+### 商品管理 分类参数 动态参数-动态参数的表格渲染
+1. el-table :data="arrDyparams"
+2. 属性名称 prop="attr_name
+3. 第一列可展开 type="expanded" 
+
+### 商品管理 分类参数 动态参数-动态编辑
+1. 动态tag编辑 引入el文档
+2. 渲染标签 el-tag v-for="(item, i) in scope.row.attr_vals" 和 el-input
+3. 删除标签handleClose(i, scope.row.attr_vals)
+4. 添加标签 handleInputConfirm(scope.row.attr_vals)
+
+### 商品管理 分类参数 动态参数-动态编辑-发送请求-更新数据
+1. 发送请求保存参数属性值 saveAttrVals(row) 
+2. put更新请求接口文档中没有:
+```js
+const res = 
+await this.$http.put(`categories/${this.cateId[2]}/attributes/${row.attr_id}`, 
+{
+    attr_name: row.attr_name,
+    attr_sel: row.attr_sel,
+    attr_vals: row.attr_vals.join(',')
+})
+```
+> attr_vals 以,分割
+3. 在handleClose() handleInputConfirm()下通过传递的分类参数row保存属性
+
+### 商品管理 分类参数 静态参数-布局-获取参数
+1. el-table 布局 
+2. 从获取动态参数里获取静态参数 getArrparams() -> getArrparams()
+3. el-tabs v-model="activeTabName" el-tab-pane name="many/only"
+> getArrparams()请求sel 通过activeTabName进行判断many/only
+```js
+this.$http.get(`categories/${this.cateId[2]}/attributes`,{
+    params: {sel: this.activeTabName}
+})
+```
+4. tab变化时将数据清空 handleClick()  arrParams=[]
+
+### 商品管理 商品分类-准备组件-路由配置-布局
+1. 新建组件 GoodsCate.vue
+2. 配置路由 path:'/categories'
+3. 布局 el-button el-table el-dialog分页
+
+### 商品管理 商品分类-获取分类数据-分页配置
+1. 请求带分页的数据 getCategories() get(`categories`,{params: this.queryInfo})
+> this.queryInfo: { pagenum: 1,pagesize: 5,type: 3}
+2. 配置分类树表格
+```js
+<el-table
+    style="width:100%"
+    size="small"
+    :data="categories"
+    row-key="cat_id"
+    border
+    :tree-props="cateTreeProps"/>
+```
+> cateTreeProps为配置分类树的value和children
+3. 分页配置 @size-change="handleSizeChange" @current-change="handleCurrentChange"
+
+### 商品管理 商品分类-添加分类-获取数据-发送请求
+1. 添加对话框el-dialog el-form -> el-button添加打开窗口方法
+2. 获取父级分类数据 getParentCate {params: {type:2}} 
+3. 级联选择器配置 el-cascader v-model="selectValue" :options="parentCate :props="parentCateProps" @change="handleChange"
+4. 点击确定请求添加 addCate post(`categories`, this.addCatForm)
+> addCatForm: { cat_pid: 0, cat_name: '', cat_level: 0 } 绑定对话框表单
+5. 通过handleChange(val)获取cat_pid，cat_level值  
+6. 提示信息 关闭对话框 更新视图 清空数据
+
+

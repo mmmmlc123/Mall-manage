@@ -1,14 +1,13 @@
 <template>
     <el-card class="box-card">
         <!-- 1.面包屑 -->
-        <my-bread level1="商品管理" level2="商品列表"></my-bread>
         
         <!-- 2.搜索 -->
         <div style="margin-top: 15px;">
             <el-input placeholder="请输入内容" v-model="query" class="inputSearch" @clear="loadGoodsList" clearable>
                 <el-button slot="append" icon="el-icon-search" @click="searchGoods"></el-button>
             </el-input>
-            <el-button type="success" @click="$router.push({name:'add'})">添加商品</el-button>
+            <el-button type="primary" @click="$router.push({name:'add'})">添加商品</el-button>
         </div>
 
         <!-- 3.表格 -->
